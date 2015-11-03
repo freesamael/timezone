@@ -229,7 +229,7 @@ GCC_DEBUG_FLAGS = -Dlint -g3 -O3 -fno-common -fstrict-aliasing \
 # before the first Monday in January when a "%V" format is used and January 1
 # falls on a Friday, Saturday, or Sunday.
 
-CFLAGS=
+CFLAGS=-DUSG_COMPAT
 
 # Linker flags.  Default to $(LFLAGS) for backwards compatibility
 # to tzcode2012h and earlier.
@@ -330,6 +330,7 @@ RANLIB=		:
 
 TZCOBJS=	zic.o
 TZDOBJS=	zdump.o localtime.o asctime.o
+TZBOBJS=  tzbug.o localtime.o strftime.o asctime.o
 DATEOBJS=	date.o localtime.o strftime.o asctime.o
 LIBSRCS=	localtime.c asctime.c difftime.c
 LIBOBJS=	localtime.o asctime.o difftime.o
@@ -454,6 +455,9 @@ libtz.a:	$(LIBOBJS)
 
 date:		$(DATEOBJS)
 		$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(DATEOBJS) $(LDLIBS)
+
+tzbug:	$(TZBOBJS)
+		$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(TZBOBJS) $(LDLIBS)
 
 tzselect:	tzselect.ksh
 		sed \
